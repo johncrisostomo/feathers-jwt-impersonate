@@ -1,0 +1,36 @@
+{
+  "name": "feathers-jwt-impersonate-verifier",
+  "version": "1.0.0",
+  "description": "A custom verifier that sits on top of feathers-authentication and feathers-authentication-jwt",
+  "main": "index.js",
+  "scripts": {
+    "compile": "babel src/index.js --out-file index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johncrisostomo/feathers-jwt-impersonate-verifier.git"
+  },
+  "keywords": [
+    "feathersjs",
+    "feathers-authentication",
+    "jwt",
+    "authentication",
+    "passport",
+    "strategy",
+    "verifier"
+  ],
+  "author": "John Crisostomo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johncrisostomo/feathers-jwt-impersonate-verifier/issues"
+  },
+  "homepage": "https://github.com/johncrisostomo/feathers-jwt-impersonate-verifier#readme",
+  "dependencies": {
+    "feathers-authentication-jwt": "^0.3.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
