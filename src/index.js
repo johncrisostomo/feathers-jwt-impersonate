@@ -16,14 +16,22 @@ class ImpersonateVerifier extends Verifier {
 
     if (
       !requester[`${this.options.rolesField}`].includes(
-        `${this.options.allowedRole}`,
+        `${this.options.allowedRole}`
       )
     ) {
       return done(null, {}, payload);
     }
 
-    const targetUser = await this.service.find({ email: request.query.email });
-    done(null, targetUser, payload);
+    let targetUser;
+
+    try {
+      targetUser = await this.service.get(request.query.userId);
+      payload.id = target.id;
+      return done(null, targetUser, payload);
+    } catch (error) {
+      // at this point there is an error or the target id is not found
+      return done(null, {}, payload);
+    }
   }
 }
 
@@ -34,7 +42,7 @@ module.exports = function(options = {}) {
     service: 'users',
     rolesField: 'roles',
     allowedRole: 'admin',
-    Verifier: ImpersonateVerifier,
+    Verifier: ImpersonateVerifier
   };
 
   return jwt({ ...impersonateOptions, ...options });

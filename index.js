@@ -31,8 +31,16 @@ class ImpersonateVerifier extends _feathersAuthenticationJwt.Verifier {
         return done(null, {}, payload);
       }
 
-      const targetUser = yield _this.service.find({ email: request.query.email });
-      done(null, targetUser, payload);
+      let targetUser;
+
+      try {
+        targetUser = yield _this.service.get(request.query.userId);
+        payload.id = target.id;
+        return done(null, targetUser, payload);
+      } catch (error) {
+        // at this point there is an error or the target id is not found
+        return done(null, {}, payload);
+      }
     })();
   }
 }
