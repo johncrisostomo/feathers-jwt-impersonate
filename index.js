@@ -15,6 +15,7 @@ class ImpersonateVerifier extends _feathersAuthenticationJwt.Verifier {
     var _this = this;
 
     return _asyncToGenerator(function* () {
+      console.log(request);
       const requesterId = payload[`${_this.options.entity}Id`];
 
       if (!requesterId) {
@@ -35,10 +36,12 @@ class ImpersonateVerifier extends _feathersAuthenticationJwt.Verifier {
 
       try {
         targetUser = yield _this.service.get(request.query.userId);
-        payload.id = target.id;
+        payload.userId = targetUser._id;
+        console.log(targetUser);
         return done(null, targetUser, payload);
       } catch (error) {
         // at this point there is an error or the target id is not found
+        console.log(error);
         return done(null, {}, payload);
       }
     })();

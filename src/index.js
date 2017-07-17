@@ -2,6 +2,7 @@ import jwt, { Verifier } from 'feathers-authentication-jwt';
 
 class ImpersonateVerifier extends Verifier {
   async verify(request, payload, done) {
+    console.log(request);
     const requesterId = payload[`${this.options.entity}Id`];
 
     if (!requesterId) {
@@ -16,7 +17,7 @@ class ImpersonateVerifier extends Verifier {
 
     if (
       !requester[`${this.options.rolesField}`].includes(
-        `${this.options.allowedRole}`
+        `${this.options.allowedRole}`,
       )
     ) {
       return done(null, {}, payload);
@@ -26,7 +27,8 @@ class ImpersonateVerifier extends Verifier {
 
     try {
       targetUser = await this.service.get(request.query.userId);
-      payload.id = target.id;
+      payload.userId = targetUser._id;
+
       return done(null, targetUser, payload);
     } catch (error) {
       // at this point there is an error or the target id is not found
@@ -42,7 +44,7 @@ module.exports = function(options = {}) {
     service: 'users',
     rolesField: 'roles',
     allowedRole: 'admin',
-    Verifier: ImpersonateVerifier
+    Verifier: ImpersonateVerifier,
   };
 
   return jwt({ ...impersonateOptions, ...options });
