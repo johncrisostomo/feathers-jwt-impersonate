@@ -39,7 +39,7 @@ class ImpersonateVerifier extends Verifier {
       return done(null, targetUser, payload);
     } catch (error) {
       // at this point there is an error or the target id is not found
-      debug(`Error populating ${this.options.entity} with id ${requesterId}`, error);
+      debug(`Error populating ${this.options.entity} with id ${request.query.userId}`, error);
       return done(null, {}, payload);
     }
   }
