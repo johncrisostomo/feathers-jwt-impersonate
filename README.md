@@ -1,4 +1,5 @@
 # feathers-jwt-impersonate
+[![Build Status](https://travis-ci.org/johncrisostomo/feathers-jwt-impersonate.svg?branch=master)](https://travis-ci.org/johncrisostomo/feathers-jwt-impersonate)
 
 **DISCLAIMER**: Use this at your own risk. This is a very early prototype.
 
