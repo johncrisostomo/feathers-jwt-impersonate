@@ -2,7 +2,6 @@ import jwt, { Verifier } from 'feathers-authentication-jwt';
 
 class ImpersonateVerifier extends Verifier {
   async verify(request, payload, done) {
-    console.log(request);
     const requesterId = payload[`${this.options.entity}Id`];
 
     if (!requesterId) {
