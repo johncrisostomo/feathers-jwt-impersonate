@@ -1,7 +1,7 @@
 import jwt, { Verifier } from 'feathers-authentication-jwt';
 import Debug from 'debug';
 
-const debug = Debug('feathers-jwt-impersonate-verifier');
+const debug = Debug('feathers-jwt-impersonate');
 
 class ImpersonateVerifier extends Verifier {
   async verify(request, payload, done) {
@@ -19,12 +19,22 @@ class ImpersonateVerifier extends Verifier {
     try {
       requester = await this.service.get(requesterId);
     } catch (err) {
-      debug(`Error getting ${this.options.entity} with id ${requesterId}`, error);
+      debug(
+        `Error getting ${this.options.entity} with id ${requesterId}`,
+        error,
+      );
       return done(null, {}, payload);
     }
 
-    if (!requester[`${this.options.rolesField}`].includes(`${this.options.allowedRole}`)) {
-      debug(`Role ${this.options.allowedRole} is not included in ${this.options.entity} ${this.options.rolesField}`);
+    if (
+      !requester[`${this.options.rolesField}`].includes(
+        `${this.options.allowedRole}`,
+      )
+    ) {
+      debug(
+        `Role ${this.options.allowedRole} is not included in ${this.options
+          .entity} ${this.options.rolesField}`,
+      );
       return done(null, {}, payload);
     }
 
@@ -39,7 +49,11 @@ class ImpersonateVerifier extends Verifier {
       return done(null, targetUser, payload);
     } catch (error) {
       // at this point there is an error or the target id is not found
-      debug(`Error populating ${this.options.entity} with id ${request.query.userId}`, error);
+      debug(
+        `Error populating ${this.options.entity} with id ${request.query
+          .userId}`,
+        error,
+      );
       return done(null, {}, payload);
     }
   }
