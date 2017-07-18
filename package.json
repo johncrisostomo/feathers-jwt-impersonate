@@ -1,5 +1,5 @@
 {
-  "name": "feathers-jwt-impersonate-verifier",
+  "name": "feathers-jwt-impersonate",
   "version": "0.0.1",
   "description": "A custom verifier that sits on top of feathers-authentication and feathers-authentication-jwt",
   "main": "index.js",
