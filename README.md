@@ -1,7 +1,7 @@
 # feathers-jwt-impersonate
 [![Build Status](https://travis-ci.org/johncrisostomo/feathers-jwt-impersonate.svg?branch=master)](https://travis-ci.org/johncrisostomo/feathers-jwt-impersonate)
 
-**DISCLAIMER**: Use this at your own risk. This is a very early prototype.
+**DISCLAIMER**: Use this at your own risk. This is a very early prototype, **and only works with REST by hitting the `/authentication` endpoint directly.**.
 
 This is a [feathers-authentication](https://github.com/feathersjs/feathers-authentication) plugin that implements user impersonation. It is just a simple custom verifier that sits on top of [feathers-authentication-jwt](https://github.com/feathersjs/feathers-authentication-jwt). As such, the default options are the same, except for these ones:
 
