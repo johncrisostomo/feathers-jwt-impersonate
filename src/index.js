@@ -2,8 +2,6 @@ import jwt, { Verifier } from 'feathers-authentication-jwt';
 
 class ImpersonateVerifier extends Verifier {
   async verify(request, payload, done) {
-    // verify that the one requesting is an admin
-    // get user from email / username / whatever
     const requesterId = payload[`${this.options.entity}Id`];
 
     if (!requesterId) {
@@ -24,30 +22,29 @@ class ImpersonateVerifier extends Verifier {
       return done(null, {}, payload);
     }
 
-    // at this point request exists and has a valid roles
-    // query the desired user to be impersonated
-    // pass that user
-    done(null, user, payload);
+    let targetUser;
+
+    try {
+      targetUser = await this.service.get(request.query.userId);
+      payload.userId = targetUser._id;
+
+      return done(null, targetUser, payload);
+    } catch (error) {
+      // at this point there is an error or the target id is not found
+      return done(null, {}, payload);
+    }
   }
 }
 
-export default function(options) {
-  const defaultOptions = {
+module.exports = function(options = {}) {
+  const impersonateOptions = {
     name: 'impersonate',
     entity: 'user',
     service: 'users',
-    passReqToCallback: true,
     rolesField: 'roles',
     allowedRole: 'admin',
-    jwtFromRequest: [
-      ExtractJwt.fromHeader,
-      ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
-      ExtractJwt.fromBodyField('body'),
-    ],
-    secretOrKey: auth.secret,
-    session: false,
     Verifier: ImpersonateVerifier,
   };
 
-  return jwt({ ...defaultOptions, ...options });
-}
+  return jwt({ ...impersonateOptions, ...options });
+};
